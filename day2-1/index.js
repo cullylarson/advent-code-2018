@@ -1,0 +1,292 @@
+const R = require('ramda')
+const {reduce} = require('@cullylarson/f')
+
+const input = `
+lsrivfotzgdxpkefaqmuiygchj
+lsrivfotzqdxpkeraqmewygchj
+lsrivfotzbdepkenarjuwygchj
+lsrivfotwbdxpkeoaqmunygchj
+lsrijfotzbdxpkenwqmuyygchj
+lsrivfotzbdxpkensqsuwygcdj
+lsrivfotubdxpkenzqmuwyschj
+lsrjvwotzbdxpkenaqjuwygchj
+lsrtvfotzbdxpkeaaqmuqygchj
+lscivzotzbdxpkenaqmuwygcnj
+ddrivfotzbdxpkenlqmuwygchj
+jsrivfvtzbdxpkenaqmufygchj
+csrivfotzxdxpkenaqguwygchj
+lprivfbtzbqxpkenaqmuwygchj
+lsrnvfotzbnxpkenaqmuwygchk
+lsiivfotzbdhpkencqmuwygchj
+lsrivfotzbyxpkenaqmzwygchc
+lsjivfotqbdxpvenaqmuwygchj
+lsrivfotzbdxpkencqmuwvgqhj
+lsrivfotzhdxpqenaqouwygchj
+lsrivfytzbnxpkenaqmuwygcsj
+llrivfotzbdxpkenaqmuwynchd
+lsuivfotzbdxpnenaqmuwygchk
+lsrtvootnbdxpkenaqmuwygchj
+ysrivfotzcdxpkenaqmuwhgchj
+lsrivfotxbdxpkefgqmuwygchj
+lsrmvfotzbaxpkenaqmuwygfhj
+lsrivfothbyxpkxnaqmuwygchj
+isrivfotzbdxpkenaqmkwygcht
+lhrivfotzbdxpkbnfqmuwygchj
+lsrivfotzbmxpkenaqmuwbgdhj
+lsrivvotzbdxcoenaqmuwygchj
+ssrwvfotzbdjpkenaqmuwygchj
+lsrivfotgbwxpkenaqmhwygchj
+lsrivfotzbdxpkenaqcuhygcyj
+lcdivfotzbdxpkenaqmuwxgchj
+ysbivfotzbdxpkenaqmuwkgchj
+lsrivfltzbdxxkenaqcuwygchj
+lsrivfotzbdxpkgnaqmunegchj
+fsqpvfotzbdxpkenaqmuwygchj
+lsriifotzbcxpkenaqmubygchj
+lsrivfotzjdxpkenaqmugygcjj
+tsrikfotzbdxpkeneqmuwygchj
+larivfotzbdxpkenaqmwwygcpj
+larivfotzbdxpkenaqmuayrchj
+lsravfotzbdxpkdoaqmuwygchj
+lsrivfotzbixpkenaqvtwygchj
+lsrixfotnbdxtkenaqmuwygchj
+lsrirfotzbdxpkeneqmuwygchv
+lsrivfofzedxpkenaqmswygchj
+lwrivfotzvdxpkenaqmuwygfhj
+lsrivfotzbdapkenaqmuqygehj
+lsrizfotgbdxpkenaqjuwygchj
+lsrivioxzbdxpkanaqmuwygchj
+lsrivfmtzbdxpkgnaqmuwcgchj
+lsrivfotzbdxpkeaaqmuofgchj
+lsrivfotvbdxpkenuqmuwygcht
+lsrivfothcdxpkenaqouwygchj
+lsgivfotzbdxpkenawmuwygchi
+lsrigfotzbdxpmonaqmuwygchj
+lsrivfotzbdxrkfnaqmuwygcha
+lsrivfopobdxpkenaqmuwygchv
+lsrejfotzbdxpkvnaqmuwygchj
+lsrivfotzbdxplenqqmuwygchz
+lsmivfotzbdppkebaqmuwygchj
+lsrivfotubdipkewaqmuwygchj
+lsrivfodnbhxpkenaqmuwygchj
+lsrivfotzbdxpkenaqmkwzgshj
+lsrixfotzbdxpkensqmuwygohj
+lsdivfotzbdxpkenaqmuwagcwj
+lsrimfotzbdxpkenaqmuwygcyu
+asnivfotzbdxpkenaqmbwygchj
+lseivfltfbdxpkenaqmuwygchj
+lsrivfbtzbdxpuenaqmuwyychj
+lsziafozzbdxpkenaqmuwygchj
+lsrivfotzbdxpkwnaomuwygchg
+ldrivfotzbdxpkeniqmuwygihj
+lsrivfotzbdxpkenaqhdwycchj
+lsrigfotzbdxphenaqmuwynchj
+lsripfotzbdxpgenaqmuwygchh
+lsrgvfoczbdxpkenaqmuwygihj
+lsribfotzbgxpkenaqhuwygchj
+lsrkvfotztdxpienaqmuwygchj
+lsrivfohzbdxpkenaqrxwygchj
+lsrivfoszbdxpkenavmuwygvhj
+lsrivfstzblxpkcnaqmuwygchj
+lzrivfotzbdxpkegaqmuwygchv
+lsrivtotzbdxpkenaqrumygchj
+lsgivfotzbdwpkenaqmuwhgchj
+lurivfotybdxpkenaqmuwygchg
+lsrivfogzbdxpkmnrqmuwygchj
+lsrivgotzbdxpkengqmuwygcwj
+lirivfbyzbdxpkenaqmuwygchj
+lwrivfotzbdxpkbjaqmuwygchj
+lsrivkotzbqxakenaqmuwygchj
+lxrivfotzbdxpkenaqmuwygshy
+lxxivfqtzbdxpkenaqmuwygchj
+lsrivfohzbdxpzenaqmuzygchj
+lsrivfotzndxekenaqmuwygcvj
+lsrdvfotzbdxpkenaqguiygchj
+lsrivfotzbdxpiehaqauwygchj
+atrivfotzbdxpkenaqmuwygchz
+lsrivfovzbdxpkenaqmuvygcwj
+lsrivfotzmdxpkennqmuwyxchj
+luvcvfotzbdxpkenaqmuwygchj
+lsriqfotzbdxpbenaqmuwygchg
+bsoivfotzudxpkenaqmuwygchj
+lsrivfotzbdxphenaqmhwxgchj
+lsrivfotzbdxpkenasmuwjgchw
+lsrivdotzboxpkenaqmuwykchj
+lsqivfotzbdxcdenaqmuwygchj
+lsrivfktzndypkenaqmuwygchj
+lwrivfotzbdxpkenaqmuolgchj
+lkrivfowzbdxpkenaqmbwygchj
+lsrivhotzbdxpkenaqyuwygvhj
+lsruvfotzbdxpkecaqmukygchj
+lsrivdotzbdsskenaqmuwygchj
+lsrivfotzbdxpkanaqmuwygcmc
+lsrgvfotubdxpkenrqmuwygchj
+psrivfotzbdxpkenaqmutygchd
+lsrivfitzbdxpkenagmiwygchj
+lsrivfotzbdxpkbnaqauwyrchj
+lsrivfotvbdxpjenaqmuwygchr
+lsrdvfoyzbjxpkenaqmuwygchj
+vsrivfothbdxpkenaqmuwyychj
+lyrivfotzpdxpkepaqmuwygchj
+lsgbqfotzbdxpkenaqmuwygchj
+lxrivfotzbdxpkenegmuwygchj
+lsrivfokzbdxpkenaqnuwyxchj
+lsrivfotubmxpkexaqmuwygchj
+lswivfvtzbdxpkenaqmuwygcgj
+lsrivfonzbdxpkenaqiuwygchc
+isrivlotzbdxpkenaqmuwygchf
+lsrilfozzbdxpkenaqmuwygcvj
+wsrivfotzbdxpkepaqmuwegchj
+lsrivfrtzbrxpkenaqquwygchj
+lsrivfotzbdxpkeqaqmuoygjhj
+lsrivfotzmdxpkenaqmuwyxchg
+lsrnvfotzbzxxkenaqmuwygchj
+ldrivfotzbdxpkenaqmlxygchj
+lsriofotzbdxpkenaqmwwmgchj
+lsrivfotzodxjkenaqmuwyglhj
+lsriviotzbdxpkegaqguwygchj
+lsrimfotzbdxpkanaqmuwygshj
+lwrzvfotzbdxpkenaqmuwygcfj
+lirivfotzbdxkkenvqmuwygchj
+lsrivfotlbdxpkeoaqmuwygahj
+lsxivfotzbdxpkenaqmuwwgchi
+lsrivfotzbdxpkenaqmukygzzj
+lsrtvfotzbdxskenaqmuwygcij
+lsgilfotzbdxpdenaqmuwygchj
+lsriyfotbbdxpkenaqmuwygchm
+lsrivfotabdxpkenaqmuwyghhs
+xsrizfotzbdxpkenaqmuwygczj
+lsrivfotybdxpkenaqquwygchx
+lsrzvfofzbdxpktnaqmuwygchj
+xsripfotzbdxpkenaqmqwygchj
+lsrivfotzbdspkenahmuwugchj
+lsmivfotzbdbpkenaqmuwygchy
+lsruvfotzbdxpkenaqqpwygchj
+lrmivfotzbdxpkenaqguwygchj
+lsnivfotzbdlpketaqmuwygchj
+lsrivfotzbdxjketaqjuwygchj
+lsrivxotzbdchkenaqmuwygchj
+lsrivootzbdxpkenaqmuwybmhj
+tsrivfdtzbdxpkenaqmuwpgchj
+lsrivmotzbdxpkxnaqmuwcgchj
+lsrivfotzadepkenaqmuwyichj
+dsrivfotrbdxpkenaqmuwtgchj
+lsrivfhtzbdxvkenoqmuwygchj
+lsrivfotzvdxbkenaqmbwygchj
+lsrxvcotzbdxpkenaqmuwygvhj
+lsrivfotzbdxykenaqmuwfgcha
+lsbivfotzbdxpkenaqmuwfvchj
+lfrivfotzbdcpkgnaqmuwygchj
+lsrivfotzbdxpwegdqmuwygchj
+lsrivfotyjdupkenaqmuwygchj
+gsrivfotzbdxpkenaemuwcgchj
+lsrivfodqbdxpkenaqmuwygchg
+lsrivfoczbdxpkenaqnuwwgchj
+lsrivpouzbhxpkenaqmuwygchj
+llbivuotzbdxpkenaqmuwygchj
+lfrivfofzbdxpkenaqmuwygchb
+lsrivfotzbdxpkenaumuwgghhj
+lsrivfotzbdxqaenazmuwygchj
+lsrivfotzbgxpkenkqmqwygchj
+lsrivfotzbdxpkensqiawygchj
+ljrijfotzbdxppenaqmuwygchj
+lsrivfoszbdxpkrnlqmuwygchj
+lsrijfotzbdxpcfnaqmuwygchj
+lsrivfotzbdopkebaqmuwytchj
+lsrivfonzbdxnkenalmuwygchj
+larivfouzbvxpkenaqmuwygchj
+lsryvfotzbdxpkensqmuwygyhj
+lsrivfztzbdxpkenaxmuwigchj
+lqkivfotzbdxpkenaqmuwygcht
+wsdivfotzbdxpkenbqmuwygchj
+lsrlvfotzadxpkencqmuwygchj
+lsrivfotoohxpkenaqmuwygchj
+lsrivfbuzbdfpkenaqmuwygchj
+psrivfotzbdxpkenawmuqygchj
+lsrivmotzbdxpkxnaqmuwcychj
+lsrivfotzvdgpkenaqmuwlgchj
+lcfivfstzbdxpkenaqmuwygchj
+lsrivfotzbddpkeeaqmuwygcij
+lsribfotzbdxpkenaqmuwugcyj
+lsrivfotzbdxakenaqmkwygyhj
+lsrivfotzbdxpkegaqmupyvchj
+lfrivfitzbdxpkenaqmuwygcrj
+lskivfotzbdxpkenaqmuwygwwj
+lsrivfotzddnpkenaqmuwfgchj
+lsrivfotzbdiukhnaqmuwygchj
+lfrivfotzbdxpkendqmuwygctj
+ljriqfotzvdxpkenaqmuwygchj
+lsrivfotzbdxpkeskqpuwygchj
+lsrivfotzbdxpkehaqmupygghj
+lsriyfotsbdxpkedaqmuwygchj
+lsrivfotzbdsjsenaqmuwygchj
+lsrivfotzbwxpienaqmuaygchj
+lsrivrotzbdxpkenaumuwygahj
+lsrivpotzfdxpkenaqmuwyjchj
+lsrivfomebdxpoenaqmuwygchj
+lswigfotpbdxpkenaqmuwygchj
+lsrivnotzbdxpkenaqmufrgchj
+lsrivfolbbdxpkenaqmuwygcqj
+lirivfotzbdxpknnaqeuwygchj
+lsrrvfxtzbdxpaenaqmuwygchj
+lspivfotzbdxpnsnaqmuwygchj
+lsrivfotzbyxpkenaqmawygcij
+lsrivfotzbfxpbenaqmuwyichj
+lsrivfotzbvxpjeyaqmuwygchj
+lyrihfotzbdxpknnaqmuwygchj
+uurivfotzbdxpkenaqmubygchj
+lsrivfotgbdxnkenaxmuwygchj
+lsriffotzbdxpkdnaqmuwygshj
+lsrisfotzbdxpkenaqzjwygchj
+lsrilfotzbdxpkenaqmuwygtgj
+lsrivfotzbdxzkenaqmuhmgchj
+hsrivfotzbdxprenaqauwygchj
+tsrevfotzbdupkenaqmuwygchj
+lsrizfotzbpxpkenaqmuwyrchj
+lsdivfotzbxxpkenaqmuhygchj
+lsrivfttzbyxpkenaqmuaygchj
+lsrivfotzodxpwenaqzuwygchj
+lsrivfotfbdxpkenaqvuwygyhj
+lsrivfotzzdxpknnaqmulygchj
+lsrjvvotzbdxpkenaqmuwjgchj
+lsrivuotzbdxpkeiaqxuwygchj
+lsrivfotzbdxpzenaqmmwygthj
+lsrivfotzbdxphenaqmuwyghvj
+`
+
+const doesRepeat = R.curry((n, x) => {
+    return R.compose(
+        reduce((acc, x) => {
+            return acc
+                ? acc
+                : x === n
+        }, false),
+        reduce((acc, x) => {
+            acc[x] = acc.hasOwnProperty(x)
+                ? acc[x] + 1
+                : 1
+
+            return acc
+        }, {}),
+        R.split(''),
+    )(x)
+})
+
+const checksum = R.compose(
+    x => x.two * x.three,
+    reduce((acc, x) => {
+        return {
+            two: acc.two + x.two,
+            three: acc.three + x.three,
+        }
+    }, {two: 0, three: 0}),
+    R.map(x => ({
+        two: doesRepeat(2, x),
+        three: doesRepeat(3, x),
+    })),
+    R.filter(x => !!x),
+    R.map(R.trim),
+    R.split('\n'),
+)(input)
+
+console.log(checksum)

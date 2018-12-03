@@ -1,0 +1,15 @@
+{
+  "name": "advent-code-2018",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cully Larson <cully.larson@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@cullylarson/f": "0.0.7",
+    "ramda": "^0.26.1"
+  }
+}
