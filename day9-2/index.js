@@ -2,7 +2,6 @@ const R = require('ramda')
 const {get, liftA} = require('@cullylarson/f')
 
 const input = `486 players; last marble is worth 7083300 points`
-// const input = `486 players; last marble is worth 70833 points`
 
 const valuesFromInput = x => {
     const result = /^([0-9]+) players; last marble is worth ([0-9]+) points$/.exec(x)
@@ -10,20 +9,6 @@ const valuesFromInput = x => {
         numPlayers: parseInt(result[1]),
         numMarbles: parseInt(result[2]) + 1,
     }
-}
-
-const getMarbleIdxCw = (circle, fromIdx, distance) => {
-    const end = fromIdx + (distance % circle.length)
-    return end > circle.length - 1
-        ? end - circle.length
-        : end
-}
-
-const getMarbleIdxCcw = (circle, fromIdx, distance) => {
-    const end = fromIdx - (distance % circle.length)
-    return end < 0
-        ? circle.length + end
-        : end
 }
 
 const getNextPlayerIdx = (numPlayers, playerIdx) => {
@@ -36,34 +21,58 @@ const buildPlayers = numPlayers => {
     return Array(numPlayers).fill(0)
 }
 
+const printCircle = (first, curr) => {
+    let next = first
+
+    do {
+        if(next === curr) {
+            process.stdout.write("[" + next.val + "] ")
+        }
+        else {
+            process.stdout.write(next.val + " ")
+        }
+        next = next.next
+    }
+    while(next !== first)
+
+    process.stdout.write("\n")
+}
+
 const placeAllMarbles = (numPlayers, numMarbles) => {
-    let circle = [0]
-    let currentIdx = 0
-    let marble = 1
+    let curr = {val: 0}
+    curr.next = curr
+    curr.prev = curr
+    const zero = curr
+
     let players = buildPlayers(numPlayers)
     let playerIdx = 0
 
     for(let marble = 1; marble < numMarbles; marble++) {
-        if(marble % 100000 === 0) console.log(marble)
-
         if(marble % 23 === 0) {
-            const marbleRemoveIdx = getMarbleIdxCcw(circle, currentIdx, 7)
+            const removeItem = curr.prev.prev.prev.prev.prev.prev.prev
 
-            players[playerIdx] += marble + circle[marbleRemoveIdx]
-            circle.splice(marbleRemoveIdx, 1)
-            currentIdx = marbleRemoveIdx
+            players[playerIdx] += marble + removeItem.val
+            curr = removeItem.next
+            removeItem.prev.next = curr
+            removeItem.next.prev = curr
         }
         else {
-            const nextCurrentIdx = getMarbleIdxCw(circle, currentIdx, 1) + 1
+            const newItem = {
+                val: marble,
+                prev: curr.next,
+                next: curr.next.next,
+            }
 
-            circle.splice(nextCurrentIdx, 0, marble)
-            currentIdx = nextCurrentIdx
+            newItem.prev.next = newItem
+            newItem.next.prev = newItem
+
+            curr = newItem
         }
 
         playerIdx = getNextPlayerIdx(numPlayers, playerIdx)
     }
 
-    return {circle, players}
+    return {players}
 }
 
 const maxList = xs => {
@@ -73,16 +82,6 @@ const maxList = xs => {
             : acc
     }, xs[0], xs)
 }
-
-function report(x) {
-    console.log(x)
-    return x
-}
-
-const reportM = R.curry((msg, x) => {
-    console.log(msg, x)
-    return x
-})
 
 const gameValues = valuesFromInput(input)
 
